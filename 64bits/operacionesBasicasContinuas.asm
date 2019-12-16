@@ -18,22 +18,19 @@
 
 section .data
 
- opcion db "Escriba opción: " ; 10 nueva línea
- opcionLen equ $-opcion
- 
- opciones db 10, "1 >Sumar", 10, "2 Restar", 10, "3 >Multiplicar", 10, "4 >Dividir", 10
- opcionesLen equ $-opcion
-
  mN1 db "ingrese numero: "; 10 nueva línea
  mn1Len equ $-mN1
  
  mN2 db "ingrese numero: "; 10 nueva línea
  mn2Len equ $-mN2
  
- mensaje db "El resultado es: " ; 10 nueva línea
+ resultados db 10, "1 >Sumar", 10, "2 >Restar", 10, "3 >Multiplicar", 10, "4 >Dividir", 10
+ resultadosLen equ $-resultados
+ 
+ mensaje db 10, "El resultado es: " ; 10 nueva línea
  mensajeLen equ $-mensaje
  
- mensaje2 db "El residuo es: ",10 ; 10 nueva línea
+ mensaje2 db 10, "El residuo es: " ; 10 nueva línea
  mensajeLen2 equ $-mensaje2
  
 
@@ -54,25 +51,12 @@ _start:
     escribir mN2, mn2Len
     leer n2
     
-    escribir opcion, opcionLen
-    escribir opciones, opcionesLen
-    leer option
+    escribir resultados, resultadosLen
+    jmp sumar
     
-    mov ah, [option]
-    sub ah, '0'
-    
-    
-    cmp ah, 1
-    je sumar
-    cmp ah, 2
-    je restar
-    cmp ah, 3
-    je multiplicar
-    cmp ah, 4
-    je dividir
     
 sumar:
-  ;suma del numeros
+  ;sumar numeros
     mov ax,[n1]
     mov bx,[n2]
     sub ax,'0'
@@ -81,10 +65,13 @@ sumar:
     add ax,'0'; transformar de numero a cadena se suma 0 ASCCI
     
     mov [resultado], ax
-    jmp operar
+    
+    escribir mensaje, mensajeLen
+    escribir resultado, 1
+    jmp restar
     
 restar:
-  ;suma del numeros
+  ;restar numeros
     mov ax,[n1]
     mov bx,[n2]
     sub ax,'0'
@@ -93,10 +80,13 @@ restar:
     add al,'0'; transformar de numero a cadena se suma 0 ASCCI
     
     mov [resultado], ax
-    jmp operar
+    
+    escribir mensaje, mensajeLen
+    escribir resultado, 1
+    jmp multiplicar
     
 multiplicar:
-  ;suma del numeros
+  ;multiplicar numeros
     mov al,[n1]
     mov bl,[n2]
     sub al,'0'
@@ -105,10 +95,13 @@ multiplicar:
     add al,'0'; transformar de numero a cadena se suma 0 ASCCI
     
     mov [resultado], al
-    jmp operar
+    
+    escribir mensaje, mensajeLen
+    escribir resultado, 1
+    jmp dividir
     
 dividir:
-  ;suma del numeros
+  ;dividir numeros
     mov al,[n1]
     mov bl,[n2]
     sub al,'0'
@@ -118,14 +111,11 @@ dividir:
     add ah, '0'
     mov [resultado], al
     mov [residuo], ah
-    escribir mensaje2, mensajeLen2
-    escribir residuo, 1
     
-    jmp operar
-    
- operar:
- ;mensaje de resultado 
     escribir mensaje, mensajeLen
     escribir resultado, 1
+    escribir mensaje2, mensajeLen2
+    escribir residuo, 1
+
     mov ax,1
     int 80h
