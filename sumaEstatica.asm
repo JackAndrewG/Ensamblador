@@ -4,7 +4,7 @@ section .data
  mensaje db "El resultado es: ", 10 ; 10 nueva línea
  mensajeLen equ $-mensaje
 
-section.bss
+section .bss
   suma resb 1
 
 section .text
@@ -14,7 +14,7 @@ _start:
     mov eax,2
     mov ebx,4
     add eax,ebx
-    add eax, '0'; transformar de numero a cadena se suma 0 ASCCI
+    ; add eax, '0'; transformar de numero a cadena se suma 0 ASCCI
     mov [suma], eax
     
     mov eax,4
